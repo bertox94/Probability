@@ -1,0 +1,311 @@
+\documentclass[12pt]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{bbm}
+\usepackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\begin{document}
+
+\title{Probability Theory}
+\maketitle
+\clearpage
+\tableofcontents
+\cleardoublepage
+\section{Logic foundations}
+\subsection{$P(A\cup B)$}
+$$P(A\cup B)=P(A)+P(B)-P(A\cap B)$$
+\subsection{$P(E^c)$}
+$$P(E^c)=1-P(E)$$
+\subsection{$P(S|R)$}
+This is the probability that $S$ happens, given that $R$ has happened.
+$$P(S|R)=\frac{P(S\cap R)}{P(R)}$$
+The $P(R)$ at the denominator, is needed to have that $P(R)=1$
+Let suppose that we know that $R$ has happened. To keep this condition true, the next outcome of the experiment must be an element of $R$. $S$ is the condition we pose on the next outcome. It can be $S\equiv R$, which means that the next outcome is an element of $R$, thus $P'(S)=1$ trivial. It can be $S=\emptyset$ which means that the next outcome doesn't contain a single outcome, thus $P'(S)=0$, trivial because the experiment must give an outcome. It can be chosen $S$ s.t. $S\cap R=\emptyset$ thus $P'(S)=0$ because we have said before that $S\cap R\neq \emptyset$. \{...\}. The only condition that satisfies all those conditions is $P'(S)=P(S\cap R)/P(R)$.
+\subsection{$P(S\cap R)$}
+Knowing $P(S|R)$ leads to an alternative formula for the intersection:
+$$P(S\cap R)=P(S|R)P(R)=P(R|S)P(S)$$
+By putting $S=E_j$, $R=\bigcap_{i\in I\setminus\{j\}}E_i$ and recursively apply the formula, we have:
+\begin{align*}
+	P\bigg(\bigcap E_i\bigg)&=P\bigg(E_j|\bigcap_{i\in I\setminus\{j\}}E_i\bigg)P\bigg(\bigcap_{i\in I\setminus\{j\}}E_i\bigg)\\
+	&=P\bigg(E_j|\bigcap_{i\in I\setminus\{j\}}E_i\bigg)P\bigg(E_h|\bigcap_{i\in I\setminus\{j,h\}}E_i\bigg)P\bigg(\bigcap_{i\in I\setminus\{j,h\}}E_i\bigg)
+\end{align*}
+\section{Independence}
+Given $n$ events $\{E_1,E_2,...,E_n\}$, for each subset $\{E_i,...,E_j\},\,1\leq i < j\leq n$ we must have $$P(E_i\cap ...\cap E_j)=P(E_i)\cdot ... \cdot P(E_j)$$
+\clearpage
+\section{Aleatory variable}
+\subsection{Discrete}
+Let $X$ be a a.v. that ranges in $\{a,b\}$
+$$P(X=x)=\pi(x)$$
+$$P(a\leq X\leq x)=\Pi(x)=\sum_{k=a}^{x}\pi(k)$$
+\subsection{Absolutely continuous}
+Let $X$ be a a.v. that ranges in $[a,b]$
+$$P(X=x)=0$$
+$$P(a\leq X\leq x)=\Pi(x)=\int_a^{x}\pi(t)dt$$
+
+\clearpage
+
+\section{Weighted mean}
+\subsection{Definition}
+\subsubsection{Discrete distributions}
+Let $X$ be a discrete a.v. with values in $[a,b]$, then
+$$\mathbb{W}[X]=\sum_{x=a}^bx\pi(x)$$
+\subsubsection{Absolutely continuous distributions}
+Let $X$ be an absolutely continuous a.v. with values in $[a,b]$, then
+$$\mathbb{W}[X]=\int_{a}^bx\pi(x)dx$$
+\subsection{Properties}
+\subsubsection{General case}
+\begin{itemize}
+	\item $\mathbb{W}[aX+b]=a\mathbb{W}[X]+b\quad a,b\in \mathbb{R}$
+	\item $\mathbb{W}[X+Y]=\mathbb{W}[X]+\mathbb{W}[Y]$
+\end{itemize}
+\subsubsection{Uncorrelated variables}
+\begin{itemize}
+	\item $\mathbb{W}[XY]=\mathbb{W}[X]\mathbb{W}[Y]$
+	\subitem Uncorrelated variables means $Cov[X,Y]=0$
+\end{itemize}
+\subsubsection{Composition of functions}
+Let $Z=f(X,Y)$, with $\Omega$ its domain
+$$\mathbb{W}[Z]=\sum_{x,y\in \Omega}f(x,y)\pi_{XY}(x,y)$$
+$$\mathbb{W}[Z]=\int_{x,y\in \Omega}f(x,y)\pi_{XY}(x,y)dxdy$$
+
+\clearpage
+\section{Covariance}
+$$Cov[X,Y]=\mathbb{W}\big[(X-\mathbb{W}[X])(Y-\mathbb{W}[Y])\big]$$
+$$=\mathbb{W}\big[XY-X\mathbb{W}[Y]-Y\mathbb{W}[X]+\mathbb{W}[X]\mathbb{W}[Y]\big]$$
+$$=\mathbb{W}[XY]-2\mathbb{W}\big[X\mathbb{W}[Y]\big]+\mathbb{W}[X]\mathbb{W}[Y]$$
+$$=\mathbb{W}[XY]-\mathbb{W}[X]\mathbb{W}[Y]$$
+\subsection{Properties}
+\subsubsection{Symmetry}
+$$Cov[X,Y]=Cov[Y,X]$$
+\subsubsection{Covariance of linear combination}
+$$Cov\bigg[\sum_{h=1}^{H}(a_hX_h+b_h),\sum_{k=1}^{K}(c_kY_k+d_k)\bigg]=\sum_{h=1}^{H}\sum_{k=1}^{K}a_hc_kCov[X_h,Y_k]$$
+\subsubsection{Variance}
+$$Cov[X,X]=Var[X]$$
+\textbf{NB:} For all abs. continuous a.v. $X$ and for any discrete a.v. $X$ that takes at least two values, we have $$\mathbb{W}[X^2]>\mathbb{W}[X]^2$$ since $Var[X]=\mathbb{W}\big[(X-\mathbb{W}[X])^2\big]>0$.
+\\\textbf{NBB:} For uncorrelated a.v. $$Var\bigg[\sum_{k=1}^{K}(a_kX_k+b_k)\bigg]=\sum_{k=1}^Ka_k^2Var[X_k]$$
+\clearpage
+\section{Standardization of a.v.}
+Given $X$, define
+$$Y=\frac{X-\mathbb{W}[X]}{\sqrt{Var[X]}}$$
+therefore
+$$\mathbb{W}[Y]=0,\qquad Var[Y]=1$$
+\section{Moments}
+\subsection{Raw}
+$$\mu_r(n)=\mathbb{W}[X^n]$$
+\subsection{Central}
+$$\mu_c(n)=\mathbb{W}\big[(X-\mathbb{W}[X])^n\big]$$
+\subsection{Standardized}
+$$\mu_c(n)=\mathbb{W}\bigg[\bigg(\frac{X-\mathbb{W}[X]}{\sqrt{Var[X]}}\bigg)^n\bigg]$$
+\section{Central limit theorem and extensions}
+The Central Limit theorem says that a sum of generic random variables $X_i$ with mean $\alpha$ and variance $\beta$ converges to the normal distribution as follows
+$$\sum_{k=1}^{n}X_k\xrightarrow[n\to\infty]{}\mathcal{N}(n\alpha,n\beta)$$
+$$\frac{1}{n}\sum_{k=1}^{n}X_k\xrightarrow[n\to\infty]{}\mathcal{N}(\alpha,\beta/n)$$
+Since
+$$\mathbb{W}\bigg[\frac{1}{n}\sum_{k=1}^{n}X_k\bigg]=\mathbb{W}[X_k],\qquad Var\bigg[\frac{1}{n}\sum_{k=1}^{n}X_k\bigg]=\frac{n}{n^2}Var[X_k]=\frac{1}{n}Var[X_k]$$
+Note that
+$$\lim_{n\to \infty}\frac{1}{n}Var[X_k]=0$$
+\clearpage
+\section{Probability generating function}
+Let $X$ be a discrete a.v. taking values in $\mathbb{N}$, then the power series representation of its probability density function is 
+$$G(z)=\mathbb{W}[z^X]=\sum_{x=0}^\infty z^x\pi_X(x)$$
+From the definition, the weighted mean can be obtained as follows
+$$\mathbb{W}[X]=\lim_{z\to 1^-}\frac{d}{dz}G(z)$$
+\section{Moment generating function}
+Let $X$ be an absolutely continuous a.v. taking values in $\mathbb{R}$, then its moment generating function is 
+$$M(t)=\mathbb{W}[e^{tX}]=\int_{\mathbb{R}}e^{tx}\pi_X(x)dx$$
+From the definition, the weighted mean can be obtained as follows
+$$\mathbb{W}[X]=\frac{d}{dt}M(t)\bigg\rvert_{t=0}$$
+\clearpage
+\section{Discrete distributions}
+$$P(X\leq x^*)=\sum_{x=x^-}^{x^*}xP(X=x)$$
+\subsection{Uniform distribution}
+\begin{itemize}
+	\item $X\in\{a,...,b\}$
+\end{itemize}
+$$P(X=x)=\frac{1}{b-a+1}$$
+\begin{itemize}
+	\item $\mathbb{W}[X]=((-1+a)ab(1+b))/(2(b-a+1))$
+	\item $Var[X]=$
+	\item $G(z)=$
+\end{itemize}
+\subsection{Bernoullian distribution: $\mathcal{B}(p)$}
+\begin{itemize}
+	\item $p\in [0,1],\quad X\in\{0,1\}$
+\end{itemize}
+	$$P(X=x)=p^x(1-p)^{1-x}$$
+\begin{itemize}
+	\item $\mathbb{W}[X]=p$
+	\item $Var[X]=p(1-p)$
+	\item $G(z)=(1-p)+pz$
+\end{itemize}
+\subsection{Binomial distribution: $B(p,n)$}
+\begin{itemize}
+	\item $p\in[0,1],\quad n\in \mathbb{N},\quad X\in \{0,...,n\}$
+\end{itemize}
+$$P(X=x)=\binom{n}{x}p^x(1-p)^{n-x}$$
+\begin{itemize}
+	\item $\mathbb{W}[X]=np$
+	\item $Var[X]=np(1-p)$
+	\item $G(z)=\big((1-p)+pz\big)^n$
+\end{itemize}
+\subsection{Geometric distribution: $Geo(p)$}
+\begin{itemize}
+	\item $p\in[0,1],\quad X\in \mathbb{N}^+$
+\end{itemize}
+$$P(X=x)=p(1-p)^{x-1}$$
+\begin{itemize}
+	\item $\mathbb{W}[X]=1/p$
+	\item $Var[X]=(1-p)/p^2$
+	\item $G(z)=pz/(1-(1-p)z)$
+\end{itemize}
+\clearpage
+\section{Absolutely continuous distributions}
+$$P(X\leq x^*)=\int_{x^-}^{x^*}xf_X(x)dx$$
+\subsection{Uniform distribution: $\mathcal{U}(a,b)$}
+\begin{itemize}
+	\item $X\in[a,b]$
+\end{itemize}
+$$f_X(x)=\frac{1}{b-a}$$
+\begin{itemize}
+	\item $\mathbb{W}[X]=(a+b)/2$
+	\item $Var[X]=(b-a)^2/12$
+	\item $M(t)=(e^{bt}-e^{at})/(t(b-a))$
+\end{itemize}
+\subsection{Linear distribution: $\mathcal{L}(\alpha)$}
+\begin{itemize}
+	\item $X\in[0,\sqrt{2/\alpha}]$
+\end{itemize}
+$$f_X(x)=\alpha x$$
+\begin{itemize}
+	\item $\mathbb{W}[X]=\sqrt{8/(9\alpha)}$
+	\item $Var[X]=$
+	\item $M(t)=$
+\end{itemize}
+
+\subsection{Exponential distribution: $\mathcal{E}(\lambda)$}
+\begin{itemize}
+	\item $\lambda>0,\quad X\in[0,+\infty)$
+\end{itemize}
+$$f_X(x)=\lambda e^{-\lambda x}$$
+\begin{itemize}
+	\item $\mathbb{W}[X]=1/\lambda$
+	\item $Var[X]=1/\lambda^2$
+	\item $t<\lambda,\quad M(t)=\lambda/(\lambda-t)$
+\end{itemize}
+\subsection{Normal distribution: $\mathcal{N}(\alpha, \beta)$}
+\begin{itemize}
+	\item $\alpha\in \mathbb{R},\quad \beta\in \mathbb{R}^+,\quad X\in \mathbb{R}$
+\end{itemize}
+$$f_X(x)=\frac{1}{\sqrt{2\pi\beta}}e^{-\frac{(x-\alpha)^2}{2\beta}}$$
+\begin{itemize}
+	\item $\mathbb{W}[X]=\alpha$
+	\item $Var[X]=\beta$
+	\item $t<\lambda,\quad M(t)=e^{\alpha t+(\beta/2)t^2}$
+\end{itemize}
+
+\clearpage
+\section{Operations}
+$$\pi_Y(y) =\pi_X(f^{-1}(y))(f^{-1})'(y)$$
+\subsection{}
+Let's have $Y=X^2, X\in[0,2],Y\in[0,4], X\sim \mathcal{U}(0,2)$ so 
+$$y=f(x)=x^2,\qquad x\in[0,2],\qquad y\in[0,4]$$
+Now, $$\pi_Y(y)=\pi_X(f^{-1}(y))|(f^{-1}(y))'(y)|$$
+therefore
+$$\pi_Y(y) = \frac{1}{4\sqrt{y}}$$
+over the domain of $Y$ obviously.
+\subsection{}
+Let's have $Y=X^2, X\in[-2,1], Y\in [0,4], X\sim \mathcal{U}(-2,1)$,  so 
+$$y=f(x)=x^2,\qquad x\in[-2,1],\qquad y\in[0,4]$$
+Let define 
+\[   
+g(x) = 
+\begin{cases}
+	f(x)\qquad x\in [-2,0]\\
+	0\qquad \;\;\quad otherwise\\ 
+\end{cases}
+\]
+\[   
+h(x) = 
+\begin{cases}
+	f(x)\qquad x\in [0,1]\\
+	0\qquad \;\;\quad otherwise\\ 
+\end{cases}
+\]
+Since
+ $$\pi_Y(y)=\pi_X(g^{-1}(y))(g^{-1}(y))'(y)+\pi_X(h^{-1}(y))(h^{-1}(y))'(y)$$
+we have
+$$\pi_Y(y)=\frac{1}{3}\mathbbm{1}_{y\in[0,4]}\frac{1}{2\sqrt{y}}+\frac{1}{3}\mathbbm{1}_{y\in[0,1]}\frac{1}{2\sqrt{y}}=$$
+$$=\frac{1}{6}\mathbbm{1}_{y\in[0,4]}\frac{1}{\sqrt{y}}+\frac{1}{6}\mathbbm{1}_{y\in[0,1]}\frac{1}{\sqrt{y}}$$
+$$=\frac{1}{3\sqrt{y}}\mathbbm{1}_{y\in[0,1]}+\frac{1}{6\sqrt{y}}\mathbbm{1}_{y\in[1,4]}$$
+\subsection{}
+Let $X\sim\mathcal{U}(a,b), Y\sim\mathcal{U}(c,d)$, $Z=X+Y$
+\subsubsection{Discrete}
+$$f_Z(z)=\sum_{x=\max(a,z-d)}^{\min(b,z-c)}f_{XY}(x,z-x)$$
+$$P(Z\leq k)=\sum_{z=a+c}^kf_Z(z)dz$$
+\subsubsection{Abs. continuous}
+$$f_Z(z)=\int_{\max(a,z-d)}^{\min(b,z-c)}f_{XY}(x,z-x)dx$$
+$$P(Z\leq k)=\int_{a+c}^kf_Z(z)dz$$
+\subsection{title}
+Suppose $f$ is injective
+\begin{equation}
+  \Pi_Y(y)=P(Y<y)=P(f(X)<y)=P(X<f^{-1}(y))=\Pi_X(f^{-1}(y))  
+\end{equation}
+If instead it is not, you split the function as a sum of injective sub-functions, then apply the formula $(1)$ on each of them and then sum together.
+\subsection{}
+Let's have $Y=X^2, X\sim \mathcal{E}(\lambda)$ so 
+$$y=f(x)=x^2,\qquad x\in[0,+\infty],\qquad y\in[0,+\infty]$$
+Now, $$\pi_Y(y)=\pi_X(f^{-1}(y))|(f^{-1}(y))'(y)|$$
+therefore
+$$\pi_Y(y) = e^{-\lambda \sqrt{y}}\frac{1}{2\sqrt(y)}$$
+over the domain of $Y$ obviously.
+\subsection{}
+Let's have $Y=X^2, X\sim \mathcal{U}(-2,2)$ so 
+$$y=f(x)=x^2,\qquad x\in[-1,2],\qquad y\in[0,4]$$
+$$y=f_1(x)=x^2,\qquad x\in[-1,0],\qquad y\in[0,1]$$
+$$y=f_2(x)=x^2,\qquad x\in[0,2],\qquad y\in[0,4]$$
+Now, $$\pi_Y(y)=\pi_X(f^{-1}(y))|(f^{-1}(y))'(y)|$$
+therefore
+\begin{equation}
+  \pi_{Y} =
+    \begin{cases}
+      \frac{2}{3}\frac{1}{2\sqrt{y}}& y\in[0,1]\\
+      \frac{1}{3}\frac{1}{2\sqrt{y}} & y\in[1,4]
+    \end{cases}
+\end{equation}
+\begin{equation}
+  \Pi_{Y} =
+    \begin{cases}
+      \int_0^y\frac{2}{3}\frac{1}{2\sqrt{y}}& y\in[0,1]\\
+      \int_0^1\frac{2}{3}\frac{1}{2\sqrt{y}}+\int_1^y\frac{1}{3}\frac{1}{2\sqrt{y}} & y\in[1,4]
+    \end{cases}
+\end{equation}
+\scalebox{1.9}{
+\begin{tikzpicture}
+  \draw[->] (-3, 0) -- (4.2, 0) node[right] {$x$};
+  \draw[->] (0, -3) -- (0, 4.2) node[above] {$y$};
+  \draw[scale=0.8, domain=0.01:1, smooth, variable=\x, blue] plot ({\x}, {2/3*1/(2*sqrt(\x))});
+    \draw[scale=0.8, domain=1:4, smooth, variable=\x, blue] plot ({\x}, {1/3*1/(2*sqrt(\x))});
+  \draw[scale=0.8, domain=0.01:1, smooth, variable=\x, red]  plot ({\x}, {2/3*sqrt(\x)});
+    \draw[scale=0.8, domain=1:4, smooth, variable=\x, red]  plot ({\x}, {0.3333333+1/3*sqrt(\x)});
+\end{tikzpicture}
+}\\
+As you can note, the integral of $\pi_Y$ is equal to 1.
+\subsection{}
+Let's have $Y=\ln(X), X\sim \mathcal{E}(\lambda)$ so 
+$$y=f(x)=\ln(x),\qquad x\in[0,+\infty],\qquad y\in[-\infty,+\infty]$$
+Now, $$\pi_Y(y)=\pi_X(f^{-1}(y))|(f^{-1}(y))'(y)|$$
+$$\pi_Y(y)=\lambda e^{-\lambda e^y}|e^y|$$
+therefore
+$$\pi_Y(y) = e^{-\lambda \sqrt{y}}\frac{1}{2\sqrt(y)}$$
+over the domain of $Y$ obviously.
+\clearpage
+
+\section{Exercise}
+You throw the dice twice, you want to know the probability of $E=\{(H,T),(T,H)\}$
+$$P(E)=\frac{2}{2^2}$$
+This is because we cannot reorganize the sampling space in a permutation relation of equivalence because of repetitions
+
+
+\end{document}
